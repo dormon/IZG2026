@@ -1,3 +1,7 @@
+build*
+*.un~
+
+
 # Prerequisites
 *.d
 
