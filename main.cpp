@@ -43,12 +43,14 @@ int main(int argc,char*argv[]){
 
   flat out int player;
   void main(){
-    if(gl_VertexID==0)gl_Position = vec4(0,0,0,10)+vec4(pos,0,0);
-    if(gl_VertexID==1)gl_Position = vec4(1,0,0,10)+vec4(pos,0,0);
-    if(gl_VertexID==2)gl_Position = vec4(0,1,0,10)+vec4(pos,0,0);
-    if(gl_VertexID==3)gl_Position = vec4(0,0,0,10)+vec4(pos2,0,0);
-    if(gl_VertexID==4)gl_Position = vec4(1,0,0,10)+vec4(pos2,0,0);
-    if(gl_VertexID==5)gl_Position = vec4(0,1,0,10)+vec4(pos2,0,0);
+    if(gl_VertexID==0)gl_Position = vec4(0,0,-1,1)+vec4(pos,0,0);
+    if(gl_VertexID==1)gl_Position = vec4(1,0,-1,1)+vec4(pos,0,0);
+    if(gl_VertexID==2)gl_Position = vec4(0,1,-1,1)+vec4(pos,0,0);
+
+    if(gl_VertexID==3)gl_Position = vec4(0,0,0,1)+vec4(pos2,0,0);
+    if(gl_VertexID==4)gl_Position = vec4(1,0,0,1)+vec4(pos2,0,0);
+    if(gl_VertexID==5)gl_Position = vec4(0,1,0,1)+vec4(pos2,0,0);
+
     player = int(gl_VertexID>=3);
   }
   ).";
@@ -61,8 +63,8 @@ int main(int argc,char*argv[]){
   flat in int player;
 
   void main(){
-    if(player==0)fColor = vec4(0,0,1,1);
-    if(player==1)fColor = vec4(1,0,0,1);
+    if(player==0)fColor = vec4(0,0,1,.5);
+    if(player==1)fColor = vec4(1,0,0,.5);
   }
   ).";
 
@@ -90,8 +92,6 @@ int main(int argc,char*argv[]){
   float pos2[2] = {0.3,0.7};
   bool running = true;
 
-    glClearColor(0,0,0,1);
-    glClear(GL_COLOR_BUFFER_BIT);
 
   while(running){ //main loop
     SDL_Event event;
@@ -110,8 +110,12 @@ int main(int argc,char*argv[]){
     }
 
 
-#define GL_COLOR_BUFFER_BIT			0x00004000
-    //render
+    glClearColor(0.1,0.1,0.1,1);
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_ONE_MINUS_SRC_ALPHA,GL_SRC_ALPHA);
+
 
     glUseProgram(prg);
     glDrawArrays(GL_TRIANGLES,0,6);
